@@ -1,1 +1,8 @@
-
+## Include the necessary libraries
+import h5py
+import numpy as np
+import matplotlib.pyplot as plt
+# Mount Google Drive to access the dataset
+from google.colab import drive
+drive.mount('/content/drive')
+top_level_path = '/content/drive/Shared drives/AI Winter School (Brown Physics CFPU 2025)/'
