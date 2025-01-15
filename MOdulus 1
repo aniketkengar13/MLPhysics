@@ -1,8 +1,20 @@
-## Include the necessary libraries
-import h5py
-import numpy as np
-import matplotlib.pyplot as plt
-# Mount Google Drive to access the dataset
-from google.colab import drive
-drive.mount('/content/drive')
-top_level_path = '/content/drive/Shared drives/AI Winter School (Brown Physics CFPU 2025)/'
+testing_data = tf.data.Dataset.from_tensor_slices((data_set[closest_indices], label_set[closest_indices].flatten()))
+testing_data = testing_data.map(lambda images, label: (images, label))
+acc_sup = tf.keras.metrics.BinaryAccuracy()
+acc_self = tf.keras.metrics.BinaryAccuracy()
+preds_sup = []
+preds_self = []
+for data, labs in testing_data.batch(4):
+    pred = sup_model(data, training=False)
+    pred2 = finetuning_model(data, training=True)
+    acc_sup.update_state(labs, pred)
+    acc_self.update_state(labs, pred2)
+    preds_sup.append(pred.numpy())
+    preds_self.append(pred2)
+
+preds_sup = np.array(preds_sup[0]).flatten()
+preds_self = np.array(preds_self[0]).flatten()
+print("Supervised Model Accuracy: ", acc_sup.result().numpy())
+# print(np.array(preds_sup[0]))
+print("Self-Supervised Model Accuracy: ", acc_self.result().numpy())
+# print(preds_self)
