@@ -2,7 +2,7 @@ def plot_preds(input_pred, model):
     fig, axes = plt.subplots(1, num_images, figsize=(10, 2.5))
     for i in range(len(closest_indices)):
         image = data_rgb[closest_indices[i]]
-        image = (image - np.min(image)) / (np.max(image) - np.min(image))
+        image = (image - np.min(image)) / (np.max( image) - np.min(image))
         axes[i].imshow(image)
         if (1 ==round(input_pred[i])):
             axes[i].add_patch(patches.Rectangle((0, 0), image.shape[1], image.shape[0],
