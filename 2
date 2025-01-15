@@ -1,0 +1,23 @@
+def plot_preds(input_pred, model):
+    fig, axes = plt.subplots(1, num_images, figsize=(10, 2.5))
+    for i in range(len(closest_indices)):
+        image = data_rgb[closest_indices[i]]
+        image = (image - np.min(image)) / (np.max(image) - np.min(image))
+        axes[i].imshow(image)
+        if (1 == round(input_pred[i])):
+            axes[i].add_patch(patches.Rectangle((0, 0), image.shape[1], image.shape[0],
+                            linewidth=6, edgecolor='lime', facecolor='none'))
+        else:
+            axes[i].add_patch(patches.Rectangle((0, 0), image.shape[1], image.shape[0],
+                            linewidth=7, edgecolor='red', facecolor='none'))
+
+        axes[i].axis('off')
+
+    fig.suptitle(model, fontsize=16)
+    plt.tight_layout()
+    plt.show()
+
+
+plot_preds(chosen_labels, "True Classifications")
+plot_preds(preds_sup, "Supervised Model Classifications")
+plot_preds(preds_self, "Self-Supervised Model Classifications")
